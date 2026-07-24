@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-urdu {
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', serif;
+    line-height: 2.2;
+  }
+  
+  .font-serif-legal {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #d4af37 0%, #fef08a 50%, #b48811 100%);
+  }
+
+  .emerald-gradient {
+    background: linear-gradient(135deg, #013220 0%, #0a4d34 50%, #042016 100%);
+  }
+
+  .emerald-gold-border {
+    border-image: linear-gradient(to right, #0a3d2a, #d4af37) 1;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+  }
+}
+
+.animate-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
