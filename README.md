@@ -260,16 +260,6 @@ npm run build
 
 ---
 
-## 📌 Project Status & Known Limitations
-
-- [ ] The landing page currently reads "Official Pakistan Judicial Portal" and "Verified SC / PPC Dataset" — this is student-project branding, not an actual government or Supreme Court affiliation. **Recommended fix before submission:** soften this copy (e.g. "AI Legal Assistance Platform for Pakistani Citizens") so the app doesn't imply an official/government status it doesn't have.
-- [ ] Confirm whether Case Archive data (the "124 Verified Archival Records" stat, etc.) is real user data or placeholder/demo data, and label it accordingly if it's a demo.
-- [x] AI outputs carry an explicit "not legal advice" disclaimer, enforced in the system prompt itself.
-
-Being upfront about this here is intentional — it reads as stronger engineering judgment than pretending every number and label on the dashboard is fully real.
-
----
-
 ## 👩‍💻 Author
 
 <div align="center">
