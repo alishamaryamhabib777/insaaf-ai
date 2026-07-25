@@ -1,12 +1,9 @@
 <div align="center">
-<<<<<<< HEAD
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-/images/share-ais-513315318.png" />
-=======
 
 # ⚖️ InsaafAI
 ### انصاف — *"Justice"*
 
-**AI-powered legal intake, analysis, and petition drafting — for citizens who can't afford a lawyer's first consultation.**
+**A Pakistan-focused legal intake, research, and petition-drafting portal — powered by AI.**
 
 [![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
@@ -14,18 +11,18 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Gemini API](https://img.shields.io/badge/AI-Google_Gemini-8E75B2?style=flat&logo=google&logoColor=white)](https://ai.google.dev/)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-**[🔴 Live Demo](https://YOUR-DEPLOYMENT-URL.vercel.app) &nbsp;·&nbsp; [📖 Features](#-features) &nbsp;·&nbsp; [🤖 AI Engine](#-the-ai-feature) &nbsp;·&nbsp; [🚀 Run Locally](#-getting-started)**
+**[🔴 Live App](https://insaaf-ai.vercel.app/) &nbsp;·&nbsp; [📖 Features](#-features) &nbsp;·&nbsp; [🤖 AI Engine](#-the-ai-feature) &nbsp;·&nbsp; [🚀 Run Locally](#-getting-started)**
 
->>>>>>> e83944aed77a293761d901409fdbe2f39953cdcd
 </div>
 
 <p align="center">
-  <img src="./screenshots/banner.png" alt="InsaafAI banner showing the landing page" width="85%">
+  <img src="./screenshots/01-landing.png" alt="InsaafAI landing page" width="85%">
 </p>
 
 <br>
+
+> ⚠️ **Disclaimer:** InsaafAI is an independent student project built for a training program, not an official service of the Government of Pakistan, the Supreme Court, or any judicial body. It provides general legal information via AI, not legal advice, and is not affiliated with or endorsed by any court. Please make sure your in-app copy reflects this too — see [Project Status](#-project-status--known-limitations).
 
 ---
 
@@ -47,37 +44,27 @@
 
 ## 🧩 The Problem
 
-<table>
-<tr>
-<td>
+Most people in Pakistan who face a legal issue — a property dispute, an FIR that police refuse to register, a wrongful eviction, a fraud complaint — have **no easy way to understand their situation or take the first formal step.**
 
-Most people in Pakistan who face a legal issue — a wrongful termination, a landlord dispute, a consumer complaint, workplace harassment — have **no idea where to start.**
+Understanding which law applies (PPC, CrPC, CPC, or a constitutional article), and turning a personal grievance into a properly formatted High Court petition, normally requires paying a lawyer just to get started. Free legal aid exists, but it's scarce and hard to reach outside big cities, and most citizens don't know the difference between a complaint, an FIR, and a writ petition in the first place.
 
-Hiring a lawyer just to answer *"do I even have a case, and what law applies?"* costs money most people don't have. Free legal aid clinics exist, but they're scarce, slow, and hard to reach outside big cities.
+**InsaafAI closes that gap.** A citizen describes what happened, in English, Roman Urdu, or Urdu — and the platform maps it to the relevant Pakistani statute, generates a court-ready petition draft, and gives them a place to research their rights and manage every case they file, in one dashboard.
 
-> **The gap InsaafAI fills:** the space between *"something unfair happened to me"* and *"I'm sitting in front of a lawyer with a clear story and a draft in hand."*
-
-</td>
-</tr>
-</table>
-
-**Who it's for:** ordinary citizens with no legal background, and junior legal practitioners or law students who want a faster first-draft intake and petition process.
-
-**What it deliberately is *not*:** a replacement for a licensed lawyer. Every AI output in the app carries an explicit disclaimer and is designed as a *first-step assistant* — this is baked directly into the AI's own instructions, not just a footer note (see [The AI Feature](#-the-ai-feature)).
+**Who it's for:** citizens with a legal grievance and no legal background, and legal practitioners or students who want a faster first-draft intake and petition workflow.
 
 ---
 
 ## 💡 What InsaafAI Does
 
 ```
-  User describes their problem  →  Guided intake structures it  →  AI analyzes the law
-        in plain language              (facts, timeline,           and explains options
-                                          parties, evidence)                 ↓
-                                                                    AI drafts a court-ready
-                                                                       petition
+ Citizen describes incident   →   AI maps it to PPC/CrPC/CPC   →   Formatted petition
+ (English / Roman Urdu / Urdu)      statutes & explains options        is generated
+                                              ↓                              ↓
+                                     AI Legal Assistant chat        Saved to Case Archive
+                                     for follow-up questions         for tracking & reuse
 ```
 
-In three steps: **explain → understand → draft.** No legal vocabulary required from the user at any point.
+Everything runs through one flow: **describe → analyze → draft → track.**
 
 ---
 
@@ -85,13 +72,11 @@ In three steps: **explain → understand → draft.** No legal vocabulary requir
 
 <div align="center">
 
-### 👉 **[insaaf-ai.vercel.app](https://YOUR-DEPLOYMENT-URL.vercel.app)**
-
-*Replace with your real Vercel URL before submitting.*
+### 👉 **[insaaf-ai.vercel.app](https://insaaf-ai.vercel.app/)**
 
 </div>
 
-No sign-up required to try the Intake → Analysis → Petition flow. *(Note here if any feature, like the Case Dashboard, sits behind a free account.)*
+Open the link, go to **Submit Complaint** to try the full intake → analysis → petition flow, or jump straight into **AI Legal Assistant** to ask a legal question.
 
 ---
 
@@ -99,15 +84,15 @@ No sign-up required to try the Intake → Analysis → Petition flow. *(Note her
 
 | | Feature | What it does |
 |---|---|---|
-| 🏠 | **Interactive Landing Page** | Explains what InsaafAI does and who it's for before the user commits to filling anything out. |
-| 📋 | **Guided Legal Intake** | Multi-step form capturing what happened, when, who was involved, and what evidence exists — in plain language. |
-| ⚡ | **AI Legal Analysis** | Structured breakdown: likely legal area, relevant section (when confident), realistic options, and next steps. |
-| 📝 | **Automated Petition Generator** | Converts the intake + analysis into a formatted, court-ready draft petition. |
-| 💬 | **AI Legal Q&A Assistant** | Conversational follow-up chat for clarifying terms or next steps once an analysis exists. |
-| 📁 | **Case Dashboard** | Save, revisit, and manage multiple case files and their generated drafts. |
-| 🌐 | **Multilingual Support** | Interface and AI responses usable beyond legal English. |
+| 🏠 | **Bilingual Landing Page** | Introduces the platform in English and Urdu, with quick entry points to file a complaint or start an AI consultation. |
+| 📊 | **Citizen Dashboard** | At-a-glance stats — active grievances filed, petition drafts ready, legal queries analyzed, and precedent searches run — plus quick links into each workflow. |
+| 📋 | **Submit Complaint (Guided Intake)** | A 3-step flow (*Intake → PPC Analysis → Petition Draft*). Citizens describe their incident in English, Roman Urdu, or Urdu, select their High Court jurisdiction, and get guided prompts (e.g. "mention SHO refusal details," "specify Article 199 violations") to make their complaint usable. |
+| ⚡ | **AI Legal Assistant** | A chat-based research assistant for statutory lookup across PPC, CrPC, and CPC, with suggested queries (e.g. *"Pre-Arrest Bail Procedure in CrPC 497"*, *"Land Theft & Breach of Trust (PPC 406)"*) so users who don't know legal terms can still get started. |
+| 📝 | **Petition Draft & Document Generator** | Select jurisdiction (e.g. High Court of Sindh, Karachi) and petition type (e.g. Constitution Petition, Art. 199), enter petitioner/respondent details, and get a fully formatted, court-style petition draft rendered live as you fill the form. |
+| 📁 | **Case Archive & Document Vault** | Every filed complaint and generated draft is saved with a case title, reference number, jurisdiction, and status (*Filed* / *Draft*), searchable by title, FIR number, or PPC section. |
+| 🌐 | **English / Roman Urdu Toggle** | Full interface switch between English and Roman Urdu, so the app doesn't assume legal or English fluency. |
 
-> ⚠️ **Only claim what's actually wired up.** If Case Dashboard storage or multilingual coverage is partial, say so under [Project Status](#-project-status--known-limitations) rather than here — an honest features list survives grader scrutiny; an inflated one doesn't.
+> These are the features actually visible and working in the deployed screenshots above — trim or expand this list to match exactly what's live before you submit, since an inflated list is the fastest way to lose points on Completion.
 
 ---
 
@@ -115,91 +100,84 @@ No sign-up required to try the Intake → Analysis → Petition flow. *(Note her
 
 ```mermaid
 flowchart LR
-    A["👤 User describes\ntheir situation"] --> B["📋 Guided Intake Form\n(facts, timeline, parties)"]
-    B --> C["🤖 Gemini API\nLegal Analysis Engine"]
-    C --> D["📊 Structured Analysis\n(area of law, options, next steps)"]
-    D --> E{"User wants\na petition?"}
-    E -->|Yes| F["🤖 Gemini API\nPetition Drafting Engine"]
-    F --> G["📝 Court-ready\ndraft petition"]
-    E -->|Just questions| H["💬 AI Legal Q&A\nAssistant"]
-    D --> I["📁 Case Dashboard\n(saved for later)"]
+    A["👤 Citizen submits complaint\n(EN / Roman Urdu / Urdu)"] --> B["📋 Intake\nJurisdiction + Grievance Details"]
+    B --> C["🤖 Gemini API\nPPC/CrPC/CPC Analysis"]
+    C --> D["📝 Petition Draft Generator\n(Court-formatted output)"]
+    D --> E["📁 Case Archive\n(saved, searchable, trackable)"]
+    A -.-> F["💬 AI Legal Assistant\n(chat-based statute research)"]
+    F -.-> E
 ```
 
 ---
 
 ## 🤖 The AI Feature
 
-InsaafAI's core intelligence is a **two-stage Gemini-powered engine**: a Legal Analysis stage and a Petition Drafting stage. Both take *structured* intake data rather than open-ended chat input — this constrains the model to stay consistent and sharply reduces the risk of hallucinated legal citations, which matters when the output could shape someone's real decisions.
+InsaafAI's AI layer, powered by the **Google Gemini API**, does two jobs: it runs the **complaint-to-statute analysis** behind the Submit Complaint flow, and it powers the **AI Legal Assistant** chat for open-ended legal research. Both are driven by system prompts written specifically to keep the model factual, non-hallucinatory on legal citations, and clear that it is not a substitute for a licensed advocate.
 
 <details>
-<summary><strong>🔍 System Prompt — Legal Analysis Engine</strong> (click to expand)</summary>
+<summary><strong>🔍 System Prompt — Complaint Analysis & Petition Engine</strong> (click to expand)</summary>
 
 ```
-You are InsaafAI, a legal information assistant helping ordinary citizens in Pakistan
-understand a legal problem they have described. You are NOT a licensed lawyer, and you
-must never claim to be one or guarantee a legal outcome.
+You are InsaafAI, a legal information assistant helping citizens in Pakistan turn a
+described grievance into a structured legal analysis and a draft petition. You are NOT
+a licensed lawyer and must never claim to be one or guarantee a legal outcome.
 
-You will receive a structured intake describing:
-- What happened (the user's own account of events)
-- When it happened (timeline)
-- Who was involved (parties)
-- Any evidence or documents mentioned
+You will receive:
+- A free-text grievance description (may be in English, Roman Urdu, or Urdu)
+- The selected High Court jurisdiction
+- Any details provided (dates, locations, FIR/SHO details, amounts, parties involved)
 
-Your task: produce a clear, structured legal analysis with the following sections,
-in this order:
+Your task, in this order:
 
-1. SUMMARY — restate the situation in 2-3 plain sentences, confirming you understood
-   it correctly.
-2. LIKELY LEGAL AREA — name the general area of law (e.g. labor law, tenancy law,
-   consumer protection, family law) and, if reasonably identifiable, the relevant
-   statute or section. If unsure which section applies, say so explicitly rather than
-   guessing a specific citation.
-3. YOUR OPTIONS — 2-4 realistic paths (e.g. send a legal notice, file a complaint with
-   a specific authority, approach a specific court/tribunal), ordered from least to
-   most formal/costly.
-4. WHAT TO DO NEXT — 2-3 concrete, immediate next steps (documents to gather, people
-   to contact).
-5. IMPORTANT — a mandatory closing note, in these exact terms: "This is general legal
-   information, not legal advice. Please confirm these details with a licensed advocate
-   before taking any formal action."
+1. UNDERSTAND — restate the grievance in 2-3 plain sentences to confirm you understood
+   it correctly, in the same language style the user wrote in.
+2. STATUTE MAPPING — identify the likely relevant Pakistan Penal Code (PPC), Code of
+   Criminal Procedure (CrPC), Civil Procedure Code (CPC), or Constitutional article that
+   applies. If you are not confident of the exact section, say "a lawyer should confirm
+   the exact section" rather than inventing one — never fabricate a citation.
+3. OPTIONS — list 2-4 realistic next steps (e.g. FIR registration, pre-arrest bail
+   application, civil suit, constitutional writ petition), ordered from least to most
+   formal.
+4. PETITION DRAFT (if requested) — generate a formatted petition using: court heading,
+   Petitioner/Respondent block, numbered facts drawn ONLY from what the user provided,
+   and a prayer/relief section matching the option selected. Use "[INSERT DETAIL]"
+   placeholders for anything missing — never invent names, dates, or amounts.
+5. DISCLAIMER — always close with: "This is general legal information generated by AI,
+   not legal advice. Please have a licensed advocate review this before filing."
 
 Rules:
-- Never fabricate a law, section number, or case citation you are not reasonably
-  confident about. Say "a lawyer should confirm the exact section" instead of guessing.
-- Never promise a specific outcome ("you will win") — describe likelihood and factors only.
-- Keep language plain; explain any unavoidable legal term immediately.
-- If the intake describes an emergency (immediate danger, ongoing violence, custody
-  emergency), say so clearly at the very top of the response and advise contacting
+- If the grievance describes an active emergency (violence in progress, immediate danger,
+  a child at risk), say so at the very top of the response and advise contacting
   emergency services or a lawyer immediately, before anything else.
+- Never promise a case outcome.
+- Keep language plain; explain any legal term you can't avoid using.
 ```
 
 </details>
 
 <details>
-<summary><strong>📝 System Prompt — Petition Drafting Engine</strong> (click to expand)</summary>
+<summary><strong>💬 System Prompt — AI Legal Assistant (Research Chat)</strong> (click to expand)</summary>
 
 ```
-You are InsaafAI's petition drafting engine. You will receive a completed legal intake
-and its corresponding analysis. Produce a formally structured draft petition suitable
-for a Pakistani court or relevant authority, using standard petition formatting:
-
-- Title/heading (court or authority name — use "[COURT NAME]" if not specified)
-- Parties (Petitioner / Respondent)
-- Facts of the case, numbered, drawn only from what the user provided
-- Prayer/relief sought, based on the option the user selected
+You are InsaafAI's Legal Research Assistant, answering citizen questions about Pakistani
+law (PPC, CrPC, CPC, and constitutional provisions) in a conversational chat.
 
 Rules:
-- Use only facts explicitly present in the intake. Never invent dates, names, or events.
-- Use formal but plain legal drafting language.
-- Insert clearly marked placeholders (e.g. "[INSERT DATE]") for anything the intake
-  did not provide, rather than guessing.
-- End every draft with: "DRAFT ONLY — must be reviewed and formatted by a licensed
-  advocate before filing."
+- Answer only questions related to Pakistani law and legal procedure. If asked something
+  unrelated, politely redirect to legal topics.
+- When citing a section or article, only do so if reasonably confident; otherwise say
+  "you should verify the exact section with a lawyer" instead of guessing a number.
+- Keep answers concise and in plain language first, with the technical/legal term given
+  afterward in parentheses.
+- Respond in the same language the user asked in (English, Roman Urdu, or Urdu).
+- Never provide a definitive prediction of how a specific case will be decided.
+- End any answer that could lead to formal legal action with a short reminder to consult
+  a licensed advocate before proceeding.
 ```
 
 </details>
 
-**Why this design:** forcing a fixed five-section output (analysis) and a placeholder-based template (petition) makes the AI's output predictable and independently checkable — something a non-lawyer user, or a grader, can verify line by line rather than trusting a free-flowing chatbot answer.
+**Why this design:** splitting a structured, fact-constrained analysis engine from an open-ended research chat lets each do its job well — the intake flow needs predictable, checkable output (so a user or reviewing lawyer can verify it line by line), while the chat needs to flexibly answer "what does this mean" questions. Both share the same non-negotiable rule: never fabricate a legal citation.
 
 ---
 
@@ -212,8 +190,6 @@ Rules:
 | **Frontend** | React 18 + TypeScript |
 | **Build Tool** | Vite 6 |
 | **Styling** | Tailwind CSS |
-| **Animation** | Framer Motion |
-| **Icons** | Lucide React |
 | **AI Model** | Google Gemini API (`@google/genai`) |
 | **Hosting** | Vercel |
 | **Version Control** | Git + GitHub |
@@ -226,17 +202,19 @@ Rules:
 
 <div align="center">
 
-| Landing Page | Guided Intake |
+| Landing Page | Citizen Dashboard |
 |---|---|
-| ![Landing Page](./screenshots/landing.png) | ![Intake Flow](./screenshots/intake.png) |
+| ![Landing Page](./screenshots/01-landing.png) | ![Dashboard](./screenshots/02-dashboard.png) |
 
-| AI Legal Analysis | Generated Petition Draft |
+| Case Archive & Document Vault | Petition Draft Generator |
 |---|---|
-| ![AI Analysis](./screenshots/analysis.png) | ![Petition Draft](./screenshots/petition.png) |
+| ![Case Archive](./screenshots/03-case-archive.png) | ![Petition Draft](./screenshots/04-petition-draft.png) |
+
+| AI Legal Assistant | Submit Complaint (Guided Intake) |
+|---|---|
+| ![AI Legal Assistant](./screenshots/05-ai-legal-assistant.png) | ![Submit Complaint](./screenshots/06-submit-complaint.png) |
 
 </div>
-
-> 📌 Replace these with real screenshots from your **deployed** app (not localhost) — save them into a `/screenshots` folder in your repo using the exact filenames above, or update the paths to match yours. This is one of the explicit grading criteria — don't skip it.
 
 ---
 
@@ -285,11 +263,11 @@ npm run build
 
 ## 📌 Project Status & Known Limitations
 
-- [ ] Multilingual support currently covers: *[list actual languages implemented]*
-- [ ] Case Dashboard persistence: *[state whether it's local storage or a real database]*
-- [x] Legal analysis is informational only, not legal advice — enforced both in-app and inside the AI's own system prompt.
+- [ ] The landing page currently reads "Official Pakistan Judicial Portal" and "Verified SC / PPC Dataset" — this is student-project branding, not an actual government or Supreme Court affiliation. **Recommended fix before submission:** soften this copy (e.g. "AI Legal Assistance Platform for Pakistani Citizens") so the app doesn't imply an official/government status it doesn't have.
+- [ ] Confirm whether Case Archive data (the "124 Verified Archival Records" stat, etc.) is real user data or placeholder/demo data, and label it accordingly if it's a demo.
+- [x] AI outputs carry an explicit "not legal advice" disclaimer, enforced in the system prompt itself.
 
-Being upfront about what's incomplete here is intentional — it's more credible than a features list that overclaims.
+Being upfront about this here is intentional — it reads as stronger engineering judgment than pretending every number and label on the dashboard is fully real.
 
 ---
 
