@@ -74,7 +74,7 @@ export const CasesView: React.FC<CasesViewProps> = ({ setActiveTab }) => {
       {/* Header with Visual Banner */}
       <div className="relative bg-gradient-to-r from-[#012618] via-[#043d28] to-[#012618] text-white p-6 sm:p-8 rounded-3xl border-2 border-[#d4af37] shadow-xl overflow-hidden">
         <img 
-          src="/src/assets/images/supreme_court_pakistan_1784922968648.jpg"
+          src="/images/supreme_court_pakistan_1784922968648.jpg"
           alt="Case Archive"
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay pointer-events-none"

@@ -113,7 +113,7 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
       {/* Visual Header Banner */}
       <div className="relative bg-gradient-to-r from-[#012618] via-[#043d28] to-[#012618] text-white p-6 rounded-3xl border-2 border-[#d4af37] shadow-xl overflow-hidden">
         <img 
-          src="/src/assets/images/legal_research_banner_1784922947119.jpg"
+          src="/images/legal_research_banner_1784922947119.jpg"
           alt="AI Legal Research"
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-overlay pointer-events-none"

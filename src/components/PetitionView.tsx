@@ -56,7 +56,7 @@ export const PetitionView: React.FC<PetitionViewProps> = ({ initialDraft, langua
       {/* Visual Header Banner */}
       <div className="relative bg-gradient-to-r from-[#012618] via-[#043d28] to-[#012618] text-white p-6 rounded-3xl border border-emerald-500/30 shadow-xl overflow-hidden">
         <img 
-          src="/src/assets/images/supreme_court_pakistan_1784922968648.jpg"
+          src="/images/supreme_court_pakistan_1784922968648.jpg"
           alt="High Court Petition Draft"
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay pointer-events-none"

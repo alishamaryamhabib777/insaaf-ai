@@ -31,7 +31,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab, lang
       {/* Welcome Hero Banner with Supreme Court Visuals */}
       <div className="relative bg-gradient-to-r from-[#012618] via-[#043d28] to-[#012618] text-white rounded-3xl p-6 sm:p-8 border border-emerald-500/30 shadow-xl overflow-hidden">
         <img 
-          src="/src/assets/images/supreme_court_pakistan_1784922968648.jpg"
+          src="/images/supreme_court_pakistan_1784922968648.jpg"
           alt="Supreme Court of Pakistan"
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay pointer-events-none"
@@ -162,7 +162,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab, lang
         >
           <div className="relative h-36 overflow-hidden bg-slate-900">
             <img 
-              src="/src/assets/images/courtroom_hero_bg_1784922922228.jpg"
+              src="/images/courtroom_hero_bg_1784922922228.jpg"
               alt="Submit Complaint"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
@@ -195,7 +195,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab, lang
         >
           <div className="relative h-36 overflow-hidden bg-slate-900">
             <img 
-              src="/src/assets/images/judicial_gavel_scales_1784923557497.jpg"
+              src="/images/judicial_gavel_scales_1784923557497.jpg"
               alt="AI Research"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
@@ -228,7 +228,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ setActiveTab, lang
         >
           <div className="relative h-36 overflow-hidden bg-slate-900">
             <img 
-              src="/src/assets/images/court_order_document_1784923535719.jpg"
+              src="/images/court_order_document_1784923535719.jpg"
               alt="Petition Drafts"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"

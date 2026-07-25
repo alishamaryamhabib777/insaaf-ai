@@ -53,7 +53,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
         {/* Background Visual Layer with Gavel & Pakistan Flag */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/src/assets/images/gavel_pakistan_flag_1784924117380.jpg"
+            src="/images/gavel_pakistan_flag_1784924117380.jpg"
             alt="Pakistan Flag & Legal Gavel"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-20 mix-blend-overlay scale-105"
@@ -156,7 +156,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
               >
                 <div className="relative rounded-2xl overflow-hidden h-64 sm:h-72">
                   <img 
-                    src="/src/assets/images/gavel_pakistan_flag_1784924117380.jpg"
+                    src="/images/gavel_pakistan_flag_1784924117380.jpg"
                     alt="Pakistan Legal System Gavel"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -182,7 +182,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
                 >
                   <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-slate-200">
                     <img 
-                      src="/src/assets/images/judicial_gavel_scales_1784923557497.jpg"
+                      src="/images/judicial_gavel_scales_1784923557497.jpg"
                       alt="Scales of Justice"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover"
@@ -201,7 +201,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
                 >
                   <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-slate-200">
                     <img 
-                      src="/src/assets/images/court_order_document_1784923535719.jpg"
+                      src="/images/court_order_document_1784923535719.jpg"
                       alt="Supreme Court Document"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover"
@@ -293,7 +293,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
           >
             <div className="relative h-44 overflow-hidden bg-slate-950">
               <img 
-                src="/src/assets/images/courtroom_hero_bg_1784922922228.jpg"
+                src="/images/courtroom_hero_bg_1784922922228.jpg"
                 alt="PPC Penal Code Mapping"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
@@ -347,7 +347,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
           >
             <div className="relative h-44 overflow-hidden bg-slate-950">
               <img 
-                src="/src/assets/images/court_order_document_1784923535719.jpg"
+                src="/images/court_order_document_1784923535719.jpg"
                 alt="High Court Petition Drafts"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
@@ -401,7 +401,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
           >
             <div className="relative h-44 overflow-hidden bg-slate-950">
               <img 
-                src="/src/assets/images/gavel_pakistan_flag_1784924117380.jpg"
+                src="/images/gavel_pakistan_flag_1784924117380.jpg"
                 alt="Bilingual Legal Assistant"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
@@ -451,7 +451,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
       <section className="relative bg-[#042016] text-white py-16 border-t border-emerald-900 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/src/assets/images/supreme_court_pakistan_1784922968648.jpg"
+            src="/images/supreme_court_pakistan_1784922968648.jpg"
             alt="Supreme Court Background"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-15 mix-blend-overlay"
@@ -486,7 +486,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
               className="rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl bg-[#011a10] group"
             >
               <img 
-                src="/src/assets/images/court_order_document_1784923535719.jpg"
+                src="/images/court_order_document_1784923535719.jpg"
                 alt="Pakistani Court Order Format"
                 referrerPolicy="no-referrer"
                 className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
@@ -545,7 +545,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, language
         >
           <div className="absolute inset-0 z-0 opacity-15">
             <img 
-              src="/src/assets/images/gavel_pakistan_flag_1784924117380.jpg" 
+              src="/images/gavel_pakistan_flag_1784924117380.jpg" 
               alt="Pakistan Legal Portal CTA" 
               referrerPolicy="no-referrer" 
               className="w-full h-full object-cover" 
