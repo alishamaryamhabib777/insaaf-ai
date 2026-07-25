@@ -227,7 +227,7 @@ Rules:
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/YOUR-USERNAME/insaaf-ai.git
+git clone https://github.com/alishamaryamhabib777/insaaf-ai.git
 cd insaaf-ai
 ```
 
