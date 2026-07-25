@@ -275,8 +275,8 @@ Being upfront about this here is intentional — it reads as stronger engineerin
 
 <div align="center">
 
-Built by **[Your Name]** for the **Prime Minister's Youth Program — PakGen, Agentic AI Course** final project.
+Built by **Alisha Maryam Habib** for the **Prime Minister's Youth Program Pak — Gen, Agentic AI Course** final project.
 
-[![GitHub](https://img.shields.io/badge/GitHub-YOUR--USERNAME-181717?style=flat&logo=github)](https://github.com/YOUR-USERNAME)
+[![GitHub](https://img.shields.io/badge/GitHub-alishamaryamhabib777-181717?style=flat&logo=github)](https://github.com/alishamaryamhabib777)
 
 </div>
