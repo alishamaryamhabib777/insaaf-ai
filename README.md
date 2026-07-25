@@ -92,7 +92,6 @@ Open the link, go to **Submit Complaint** to try the full intake → analysis �
 | 📁 | **Case Archive & Document Vault** | Every filed complaint and generated draft is saved with a case title, reference number, jurisdiction, and status (*Filed* / *Draft*), searchable by title, FIR number, or PPC section. |
 | 🌐 | **English / Roman Urdu Toggle** | Full interface switch between English and Roman Urdu, so the app doesn't assume legal or English fluency. |
 
-> These are the features actually visible and working in the deployed screenshots above — trim or expand this list to match exactly what's live before you submit, since an inflated list is the fastest way to lose points on Completion.
 
 ---
 
