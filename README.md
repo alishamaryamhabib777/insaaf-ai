@@ -37,7 +37,6 @@
 - [Tech Stack](#-tech-stack)
 - [Screenshots](#-screenshots)
 - [Getting Started](#-getting-started)
-- [Project Status](#-project-status--known-limitations)
 - [Author](#-author)
 
 ---
