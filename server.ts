@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
@@ -146,7 +145,7 @@ function generateFallbackLegalAnalysis(complaint: string, jurisdiction: string =
 }
 
 // POST /api/legal - Main legal analysis endpoint
-app.post("/api/legal", async (req, res) => {
+app.post(["/api/legal", "/legal"], async (req, res) => {
   try {
     const { complaint, urduComplaint, jurisdiction = "High Court of Sindh, Karachi" } = req.body;
 
@@ -396,7 +395,7 @@ function getSmartLegalResponse(message: string) {
 }
 
 // POST /api/chat - AI Legal Assistant Chatbot endpoint with Search Grounding
-app.post("/api/chat", async (req, res) => {
+app.post(["/api/chat", "/chat"], async (req, res) => {
   try {
     const { message, history = [] } = req.body;
 
@@ -498,8 +497,11 @@ When answering:
   }
 });
 
+export default app;
+
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -518,4 +520,6 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+}
