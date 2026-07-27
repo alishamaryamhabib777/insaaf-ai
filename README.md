@@ -88,7 +88,10 @@ No sign-up required to try the Intake → Analysis → Petition flow. *(Note her
 | 📁 | **Case Dashboard** | Save, revisit, and manage multiple case files and their generated drafts. |
 | 🌐 | **Multilingual Support** | Interface and AI responses usable beyond legal English. |
 
+<<<<<<< HEAD
 > ⚠️ **Only claim what's actually wired up.** If Case Dashboard storage or multilingual coverage is partial, say so under [Project Status](#-project-status--known-limitations) rather than here — an honest features list survives grader scrutiny; an inflated one doesn't.
+=======
+>>>>>>> 8cdb031489a9c05b3cbc910b477c0a3487b48862
 
 ---
 
@@ -230,8 +233,13 @@ Rules:
 
 ### 1️⃣ Clone the repository
 ```bash
+<<<<<<< HEAD
 git clone https://github.com/YOUR-USERNAME/munsif-ai.git
 cd munsif-ai
+=======
+git clone https://github.com/alishamaryamhabib777/insaaf-ai.git
+cd insaaf-ai
+>>>>>>> 8cdb031489a9c05b3cbc910b477c0a3487b48862
 ```
 
 ### 2️⃣ Install dependencies
@@ -264,6 +272,7 @@ npm run build
 
 ---
 
+<<<<<<< HEAD
 ## 📌 Project Status & Known Limitations
 
 - [ ] Multilingual support currently covers: *[list actual languages implemented]*
@@ -274,12 +283,14 @@ Being upfront about what's incomplete here is intentional — it's more credible
 
 ---
 
+=======
+>>>>>>> 8cdb031489a9c05b3cbc910b477c0a3487b48862
 ## 👩‍💻 Author
 
 <div align="center">
 
-Built by **[Your Name]** for the **Prime Minister's Youth Program — PakGen, Agentic AI Course** final project.
+Built by **Alisha Maryam Habib** for the **Prime Minister's Youth Program Pak — Gen, Agentic AI Course** final project.
 
-[![GitHub](https://img.shields.io/badge/GitHub-YOUR--USERNAME-181717?style=flat&logo=github)](https://github.com/YOUR-USERNAME)
+[![GitHub](https://img.shields.io/badge/GitHub-alishamaryamhabib777-181717?style=flat&logo=github)](https://github.com/alishamaryamhabib777)
 
 </div>
