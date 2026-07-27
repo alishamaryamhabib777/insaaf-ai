@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: "10mb" }));
 
@@ -148,7 +148,7 @@ function generateFallbackLegalAnalysis(complaint: string, jurisdiction: string =
 // POST /api/legal - Main legal analysis endpoint
 app.post("/api/legal", async (req, res) => {
   try {
-    const { complaint, urduComplaint, jurisdiction = "High Court of Sindh, Karachi", language = "en" } = req.body;
+    const { complaint, urduComplaint, jurisdiction = "High Court of Sindh, Karachi" } = req.body;
 
     if (!complaint && !urduComplaint) {
       return res.status(400).json({ error: "Please provide a valid legal grievance or complaint description." });
@@ -168,7 +168,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 {
   "caseId": "LHR-2026-AI782",
   "cognizableRisk": 82,
-  "riskLevel": "High Risk" | "Medium Risk" | "Low Risk",
+  "riskLevel": "High Risk",
   "riskExplanation": "Detailed assessment of whether this is cognizable/non-cognizable or civil/criminal",
   "caseSummary": "Comprehensive professional summary of the case and constitutional rights affected",
   "ppcLawSections": [
@@ -209,7 +209,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
+      model: "gemini-1.5-flash", // <--- UPDATED MODEL NAME HERE
       contents: `Jurisdiction: ${jurisdiction}\nUser Grievance Text:\n${fullComplaintText}`,
       config: {
         systemInstruction: systemPrompt,
@@ -382,7 +382,7 @@ function getSmartLegalResponse(message: string) {
    - Use our **File Complaint Intake** tab to generate a structured case file, identify specific PPC sections, and automatically draft a High Court petition.
 
 **Urdu Guidance / اردو میں رہنمائی:**
-آپ کے سوال کے حوالے سے تعزیراتِ پاکستان اور ضابطہ فوجداری کے قوانین لاگو ہوتے ہیں۔ فوری ریلیف کے لیے متعلقہ تھانے میں درخواست دیں یا سیشن کورٹ میں 22-A کی پٹیشن دائر کریں۔ ہماری ایپ کا "File Complaint" کا آپشن استعمال کر کے آپ مکمل درخواست کا مسودہ تیار کر سکتے ہیں۔`;
+آپ کے سوال کے حوالے سے تعزیراتِ پاکستان اور ضابطہ فوجداری کے قوانین لاگو ہوتے ہیں۔ فوری ریلیف کے لیے متعلقہ تھانے میں درخواست دیں یا سیشن کورٹ میں 22-A کی پٹیشن دائر کریں۔ ہماری ایپ کا "File Complaint" کا آپشن استعمال کر کے آپ مکمل درخواست کا مسودہ تیار کر سکتے me۔`;
     legalBasis = "Pakistan Statutory Framework (PPC, CrPC & CPC)";
     sectionRef = "Munsif.ai Legal Counsel";
   }
@@ -398,7 +398,7 @@ function getSmartLegalResponse(message: string) {
 // POST /api/chat - AI Legal Assistant Chatbot endpoint with Search Grounding
 app.post("/api/chat", async (req, res) => {
   try {
-    const { message, history = [], language = "en" } = req.body;
+    const { message, history = [] } = req.body;
 
     if (!message) {
       return res.status(400).json({ error: "Message is required." });
@@ -448,9 +448,9 @@ When answering:
     let sources: Array<{ title: string; url: string }> = [];
 
     try {
-      // First try gemini-2.5-flash with Google Search Grounding
+      // Try gemini-1.5-flash with Google Search Grounding
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-1.5-flash", // <--- UPDATED MODEL NAME HERE
         contents: sanitizedHistory as any,
         config: {
           systemInstruction,
@@ -466,11 +466,11 @@ When answering:
         url: chunk.web?.uri || ""
       })).filter((s: any) => s.url) || [];
     } catch (groundingErr) {
-      console.warn("Search grounding failed, falling back to standard gemini-2.5-flash:", groundingErr);
+      console.warn("Search grounding failed, falling back to standard gemini-1.5-flash:", groundingErr);
       // Retry without search grounding tool
       try {
         const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-1.5-flash", // <--- UPDATED MODEL NAME HERE
           contents: sanitizedHistory as any,
           config: {
             systemInstruction,
