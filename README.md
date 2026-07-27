@@ -12,7 +12,7 @@
 [![Gemini API](https://img.shields.io/badge/AI-Google_Gemini-8E75B2?style=flat&logo=google&logoColor=white)](https://ai.google.dev/)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com/)
 
-**[🔴 Live App](https://insaaf-ai.vercel.app/) &nbsp;·&nbsp; [📖 Features](#-features) &nbsp;·&nbsp; [🤖 AI Engine](#-the-ai-feature) &nbsp;·&nbsp; [🚀 Run Locally](#-getting-started)**
+**[🔴 Live App](https://munsifai.vercel.app/) &nbsp;·&nbsp; [📖 Features](#-features) &nbsp;·&nbsp; [🤖 AI Engine](#-the-ai-feature) &nbsp;·&nbsp; [🚀 Run Locally](#-getting-started)**
 
 </div>
 
