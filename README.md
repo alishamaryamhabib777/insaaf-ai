@@ -233,13 +233,9 @@ Rules:
 
 ### 1️⃣ Clone the repository
 ```bash
-<<<<<<< HEAD
-git clone https://github.com/YOUR-USERNAME/munsif-ai.git
+git clone https://github.com/alishamaryamhabib777/munsif-ai.git
 cd munsif-ai
-=======
-git clone https://github.com/alishamaryamhabib777/insaaf-ai.git
-cd insaaf-ai
->>>>>>> 8cdb031489a9c05b3cbc910b477c0a3487b48862
+
 ```
 
 ### 2️⃣ Install dependencies
