@@ -20,8 +20,8 @@ app.use((req, res, next) => {
 
 // Initialize Gemini SDK lazily / safely
 function getGeminiClient(): GoogleGenAI | null {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+  if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
     return null;
   }
   return new GoogleGenAI({
