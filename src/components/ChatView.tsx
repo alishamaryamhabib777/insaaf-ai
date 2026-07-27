@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+=import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, AppLanguage } from '../types';
-import { GoogleGenAI } from '@google/genai';
 import { 
   Sparkles, 
   Send, 
@@ -59,35 +58,32 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
     setIsLoading(true);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      
-      if (!apiKey) {
-        throw new Error("Missing VITE_GEMINI_API_KEY environment variable.");
-      }
-
-      // Initialize AI inside handleSend so it evaluates the variable dynamically at runtime
-      const ai = new GoogleGenAI({ apiKey });
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash', // <--- Change this to gemini-1.5-flash
-        contents: [
-          { role: 'user', parts: [{ text: query }] }
-        ],
-        config: {
-          systemInstruction: `You are MUNSIF.AI, an official AI Legal Assistant specializing in Pakistani Law (PPC, CrPC, CPC, and Constitution of Pakistan).
-Selected Language: ${language}.
-Provide concise, accurate legal insights with relevant section citations where appropriate.`
-        }
+      // Send request to your Express server endpoint instead of SDK client-side
+      const res = await fetch('/api/legal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          complaint: query,
+          jurisdiction: "High Court of Sindh, Karachi"
+        })
       });
 
+      if (!res.ok) {
+        throw new Error(`Server responded with status ${res.status}`);
+      }
+
+      const data = await res.json();
       setIsLoading(false);
+
+      // Build AI response text from server payload
+      const responseText = data.caseSummary || data.text || "No legal analysis generated.";
 
       const aiMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: 'ai',
-        text: response.text || "No response generated.",
+        text: responseText,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        legalBasis: 'Pakistan Penal Code & Supreme Court Precedents'
+        legalBasis: data.ppcLawSections?.[0]?.section || 'Pakistan Penal Code & Supreme Court Precedents'
       };
 
       setMessages(prev => [...prev, aiMsg]);
@@ -95,16 +91,12 @@ Provide concise, accurate legal insights with relevant section citations where a
       console.error("Chat error:", err);
       setIsLoading(false);
 
-      const errorMessage = !import.meta.env.VITE_GEMINI_API_KEY
-        ? "API Key missing! Please configure VITE_GEMINI_API_KEY on Vercel."
-        : `Error: ${err?.message || "An error occurred while connecting to the legal database."}`;
-
       setMessages(prev => [
         ...prev,
         {
           id: (Date.now() + 1).toString(),
           sender: 'ai',
-          text: `⚠️ ${errorMessage}`,
+          text: `⚠️ Error: ${err?.message || "An error occurred while connecting to the legal database."}`,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
