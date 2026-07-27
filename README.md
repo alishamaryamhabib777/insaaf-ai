@@ -57,9 +57,9 @@ Understanding which law applies (PPC, CrPC, CPC, or a constitutional article), a
 ## 💡 What Munsif.AI Does
 
 ```
- Citizen describes incident   →   AI maps it to PPC/CrPC/CPC   →   Formatted petition
+Citizen describes incident   →   AI maps it to PPC/CrPC/CPC   →   Formatted petition
  (English / Roman Urdu / Urdu)      statutes & explains options        is generated
- ↓                              ↓
+                                              ↓                              ↓
                                      AI Legal Assistant chat        Saved to Case Archive
                                      for follow-up questions         for tracking & reuse
 ```
