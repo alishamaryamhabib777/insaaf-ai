@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { GoogleGenAI } from "@google/genai";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -24,13 +23,14 @@ app.use((req: any, res: any, next: any) => {
   express.json({ limit: "10mb" })(req, res, next);
 });
 
-// Initialize Gemini SDK lazily / safely
-function getGeminiClient(): GoogleGenAI | null {
+// Initialize Gemini SDK lazily / safely with dynamic import
+async function getGeminiClient(): Promise<any> {
   const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
   if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
     return null;
   }
   try {
+    const { GoogleGenAI } = await import("@google/genai");
     return new GoogleGenAI({ apiKey });
   } catch (err) {
     console.error("Failed to initialize GoogleGenAI client:", err);
@@ -172,7 +172,7 @@ app.post(["/api/legal", "/legal"], async (req, res) => {
     }
 
     const fullComplaintText = [complaint, urduComplaint].filter(Boolean).join("\n---\nUrdu/Roman Urdu Details:\n");
-    const ai = getGeminiClient();
+    const ai = await getGeminiClient();
 
     if (!ai) {
       console.log("Gemini API key missing, returning structured fallback legal analysis");
@@ -423,7 +423,7 @@ app.post(["/api/chat", "/chat"], async (req, res) => {
       return res.status(400).json({ error: "Message is required." });
     }
 
-    const ai = getGeminiClient();
+    const ai = await getGeminiClient();
 
     if (!ai) {
       return res.json(getSmartLegalResponse(message));
