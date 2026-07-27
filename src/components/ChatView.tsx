@@ -102,11 +102,19 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
         body: JSON.stringify({ message: query, history })
       });
 
-      if (!res.ok) {
-        throw new Error(`Server responded with status ${res.status}`);
+      const responseText = await res.text();
+      let data: any = {};
+
+      try {
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        data = { text: responseText || 'No legal analysis generated.' };
       }
 
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || data?.message || `Server responded with status ${res.status}`);
+      }
+
       setIsLoading(false);
 
       const aiMsg: ChatMessage = {

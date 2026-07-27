@@ -89,11 +89,19 @@ export const IntakeView: React.FC<IntakeViewProps> = ({
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Server returned status ${response.status}`);
+      const responseText = await response.text();
+      let result: LegalAnalysisResult | null = null;
+
+      try {
+        result = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        result = null;
       }
 
-      const result: LegalAnalysisResult = await response.json();
+      if (!response.ok || !result) {
+        throw new Error((result as any)?.error || `Server returned status ${response.status}`);
+      }
+
       setIsLoading(false);
       onAnalysisComplete(result);
     } catch (err: any) {

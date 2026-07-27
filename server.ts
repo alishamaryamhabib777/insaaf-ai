@@ -4,6 +4,28 @@ import path from "path";
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
+export function normalizeBody(body: any): Record<string, any> {
+  if (!body) return {};
+  if (typeof body === "string") {
+    try {
+      return JSON.parse(body);
+    } catch {
+      return {};
+    }
+  }
+  if (Buffer.isBuffer(body)) {
+    try {
+      return JSON.parse(body.toString("utf8"));
+    } catch {
+      return {};
+    }
+  }
+  if (typeof body === "object") {
+    return body;
+  }
+  return {};
+}
+
 // Enable CORS and handle preflight OPTIONS requests for Vercel deployment
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -16,11 +38,14 @@ app.use((req, res, next) => {
 });
 
 // Stream-safe body parser middleware (prevents stream reading timeouts on Vercel)
+app.use(express.json({ limit: "10mb", strict: false }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use((req: any, res: any, next: any) => {
   if (req.body && typeof req.body === "object") {
     return next();
   }
-  express.json({ limit: "10mb" })(req, res, next);
+  req.body = normalizeBody(req.body);
+  return next();
 });
 
 // Initialize Gemini SDK lazily / safely with dynamic import
@@ -159,26 +184,27 @@ function generateFallbackLegalAnalysis(complaint: string, jurisdiction: string =
   };
 }
 
-// POST /api/legal - Main legal analysis endpoint
-app.post(["/api/legal", "/legal"], async (req, res) => {
+export async function getLegalAnalysisFromBody(body: any) {
+  const normalized = normalizeBody(body);
+  const complaint = typeof normalized.complaint === "string" ? normalized.complaint : "";
+  const urduComplaint = typeof normalized.urduComplaint === "string" ? normalized.urduComplaint : "";
+  const jurisdiction = typeof normalized.jurisdiction === "string" && normalized.jurisdiction.trim()
+    ? normalized.jurisdiction
+    : "High Court of Sindh, Karachi";
+
+  if (!complaint && !urduComplaint) {
+    return { status: 400, body: { error: "Please provide a valid legal grievance or complaint description." } };
+  }
+
+  const fullComplaintText = [complaint, urduComplaint].filter(Boolean).join("\n---\nUrdu/Roman Urdu Details:\n");
+  const ai = await getGeminiClient();
+
+  if (!ai) {
+    console.log("Gemini API key missing, returning structured fallback legal analysis");
+    return { status: 200, body: generateFallbackLegalAnalysis(fullComplaintText, jurisdiction) };
+  }
+
   try {
-    const body = req.body || {};
-    const complaint = body.complaint || "";
-    const urduComplaint = body.urduComplaint || "";
-    const jurisdiction = body.jurisdiction || "High Court of Sindh, Karachi";
-
-    if (!complaint && !urduComplaint) {
-      return res.status(400).json({ error: "Please provide a valid legal grievance or complaint description." });
-    }
-
-    const fullComplaintText = [complaint, urduComplaint].filter(Boolean).join("\n---\nUrdu/Roman Urdu Details:\n");
-    const ai = await getGeminiClient();
-
-    if (!ai) {
-      console.log("Gemini API key missing, returning structured fallback legal analysis");
-      return res.json(generateFallbackLegalAnalysis(fullComplaintText, jurisdiction));
-    }
-
     const systemPrompt = `You are Munsif.ai, an expert Pakistani Judicial Assistant and Senior Advocate specializing in the Pakistan Penal Code (PPC), Code of Criminal Procedure (CrPC), Code of Civil Procedure (CPC), Illegal Dispossession Act, Constitution of Pakistan (1973), and Supreme Court precedents.
 
 Analyze the user's grievance and output a valid JSON object matching this schema:
@@ -240,13 +266,21 @@ Analyze the user's grievance and output a valid JSON object matching this schema
       throw new Error("Empty response from AI model");
     }
 
-    const parsedData = JSON.parse(responseText);
-    return res.json(parsedData);
+    return { status: 200, body: JSON.parse(responseText) };
   } catch (error: any) {
     console.error("Error processing legal analysis via Gemini:", error?.message || error);
-    const complaint = req.body?.complaint || req.body?.urduComplaint || "General legal query";
-    const jurisdiction = req.body?.jurisdiction || "High Court of Sindh, Karachi";
-    return res.json(generateFallbackLegalAnalysis(complaint, jurisdiction));
+    return { status: 200, body: generateFallbackLegalAnalysis(complaint || urduComplaint || "General legal query", jurisdiction) };
+  }
+}
+
+// POST /api/legal - Main legal analysis endpoint
+app.post(["/api/legal", "/legal"], async (req, res) => {
+  try {
+    const result = await getLegalAnalysisFromBody(req.body);
+    return res.status(result.status).json(result.body);
+  } catch (error: any) {
+    console.error("Unhandled legal route error:", error?.message || error);
+    return res.status(200).json(generateFallbackLegalAnalysis(req.body?.complaint || req.body?.urduComplaint || "General legal query", req.body?.jurisdiction || "High Court of Sindh, Karachi"));
   }
 });
 
@@ -412,24 +446,22 @@ function getSmartLegalResponse(message: string) {
   };
 }
 
-// POST /api/chat - AI Legal Assistant Chatbot endpoint with Search Grounding
-app.post(["/api/chat", "/chat"], async (req, res) => {
-  try {
-    const body = req.body || {};
-    const message = body.message || "";
-    const history = body.history || [];
+export async function getChatResponseFromBody(body: any) {
+  const normalized = normalizeBody(body);
+  const message = typeof normalized.message === "string" ? normalized.message : "";
+  const history = Array.isArray(normalized.history) ? normalized.history : [];
 
-    if (!message) {
-      return res.status(400).json({ error: "Message is required." });
-    }
+  if (!message.trim()) {
+    return { status: 400, body: { error: "Message is required." } };
+  }
 
-    const ai = await getGeminiClient();
+  const ai = await getGeminiClient();
 
-    if (!ai) {
-      return res.json(getSmartLegalResponse(message));
-    }
+  if (!ai) {
+    return { status: 200, body: getSmartLegalResponse(message) };
+  }
 
-    const systemInstruction = `You are Munsif.ai Legal Counsel, an expert, empathetic, and highly detailed AI research assistant specializing in Pakistani law.
+  const systemInstruction = `You are Munsif.ai Legal Counsel, an expert, empathetic, and highly detailed AI research assistant specializing in Pakistani law.
 Provide clear, authoritative legal analysis grounded in the Pakistan Penal Code (PPC), Code of Criminal Procedure (CrPC), Code of Civil Procedure (CPC), Constitution of Pakistan (1973), Illegal Dispossession Act, and landmark Supreme Court of Pakistan decision precedents (PLD, SCMR, CLC, YLR).
 When answering:
 1. Identify relevant statutory sections (e.g., PPC 420, CrPC 497, Article 199).
@@ -438,82 +470,90 @@ When answering:
 4. If the user asks in Urdu or Roman Urdu, respond with clear Urdu / Roman Urdu explanation along with English statutory citations.
 5. Clarify that your advice provides research and preliminary guidance.`;
 
-    // Sanitize turn history
-    const sanitizedHistory: Array<{ role: string; parts: Array<{ text: string }> }> = [];
+  const sanitizedHistory: Array<{ role: string; parts: Array<{ text: string }> }> = [];
 
-    for (const item of history) {
-      const textVal = item.content || item.text || item.parts?.[0]?.text || "";
-      if (!textVal.trim()) continue;
+  for (const item of history) {
+    const textVal = item.content || item.text || item.parts?.[0]?.text || "";
+    if (!textVal.trim()) continue;
 
-      const role = item.role === 'user' ? 'user' : 'model';
+    const role = item.role === 'user' ? 'user' : 'model';
 
-      if (sanitizedHistory.length === 0 && role === 'model') {
-        continue;
-      }
-
-      sanitizedHistory.push({
-        role,
-        parts: [{ text: textVal }]
-      });
+    if (sanitizedHistory.length === 0 && role === 'model') {
+      continue;
     }
 
     sanitizedHistory.push({
-      role: "user",
-      parts: [{ text: message }]
+      role,
+      parts: [{ text: textVal }]
+    });
+  }
+
+  sanitizedHistory.push({
+    role: "user",
+    parts: [{ text: message }]
+  });
+
+  let replyText = "";
+  let sources: Array<{ title: string; url: string }> = [];
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: sanitizedHistory as any,
+      config: {
+        systemInstruction,
+        temperature: 0.3,
+        tools: [{ googleSearch: {} }]
+      }
     });
 
-    let replyText = "";
-    let sources: Array<{ title: string; url: string }> = [];
-
+    replyText = response.text || "";
+    const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
+    sources = groundingChunks?.map((chunk: any) => ({
+      title: chunk.web?.title || "Legal Source",
+      url: chunk.web?.uri || ""
+    })).filter((s: any) => s.url) || [];
+  } catch (groundingErr) {
+    console.warn("Search grounding failed, falling back to standard gemini-2.0-flash:", groundingErr);
     try {
       const response = await ai.models.generateContent({
         model: "gemini-2.0-flash",
         contents: sanitizedHistory as any,
         config: {
           systemInstruction,
-          temperature: 0.3,
-          tools: [{ googleSearch: {} }]
+          temperature: 0.3
         }
       });
-
       replyText = response.text || "";
-      const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
-      sources = groundingChunks?.map((chunk: any) => ({
-        title: chunk.web?.title || "Legal Source",
-        url: chunk.web?.uri || ""
-      })).filter((s: any) => s.url) || [];
-    } catch (groundingErr) {
-      console.warn("Search grounding failed, falling back to standard gemini-2.0-flash:", groundingErr);
-      try {
-        const response = await ai.models.generateContent({
-          model: "gemini-2.0-flash",
-          contents: sanitizedHistory as any,
-          config: {
-            systemInstruction,
-            temperature: 0.3
-          }
-        });
-        replyText = response.text || "";
-      } catch (genErr) {
-        console.error("Gemini direct generation error:", genErr);
-        return res.json(getSmartLegalResponse(message));
-      }
+    } catch (genErr) {
+      console.error("Gemini direct generation error:", genErr);
+      return { status: 200, body: getSmartLegalResponse(message) };
     }
+  }
 
-    if (!replyText) {
-      return res.json(getSmartLegalResponse(message));
-    }
+  if (!replyText) {
+    return { status: 200, body: getSmartLegalResponse(message) };
+  }
 
-    return res.json({
+  return {
+    status: 200,
+    body: {
       text: replyText,
       legalBasis: "Pakistan Statutory & Case Law (PPC / CrPC / SCMR Archives)",
       sectionRef: "Munsif.ai Research Engine",
       sources
-    });
+    }
+  };
+}
+
+// POST /api/chat - AI Legal Assistant Chatbot endpoint with Search Grounding
+app.post(["/api/chat", "/chat"], async (req, res) => {
+  try {
+    const result = await getChatResponseFromBody(req.body);
+    return res.status(result.status).json(result.body);
   } catch (error: any) {
-    console.error("Error in AI Legal Chatbot via Gemini:", error?.message || error);
-    const message = req.body?.message || "";
-    return res.json(getSmartLegalResponse(message));
+    console.error("Unhandled chat route error:", error?.message || error);
+    return res.status(200).json(getSmartLegalResponse(req.body?.message || ""));
   }
 });
 
