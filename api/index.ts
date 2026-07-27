@@ -1,13 +1,16 @@
-import app from "../server";
+import chatHandler from "./chat";
+import legalHandler from "./legal";
 
 export default function handler(req: any, res: any) {
   const url = req.url || "/";
 
   if (url === "/api" || url === "/api/") {
-    req.url = "/api/chat";
-  } else if (url.startsWith("/api")) {
-    req.url = url;
+    return chatHandler(req, res);
   }
 
-  return app(req, res);
+  if (url.startsWith("/api/legal")) {
+    return legalHandler(req, res);
+  }
+
+  return chatHandler(req, res);
 }
