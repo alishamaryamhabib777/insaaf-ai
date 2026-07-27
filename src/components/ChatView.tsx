@@ -6,18 +6,12 @@ import {
   Send, 
   BookOpen, 
   User, 
-  Loader2, 
-  ShieldCheck 
+  Loader2 
 } from 'lucide-react';
 
 interface ChatViewProps {
   language: AppLanguage;
 }
-
-// Initialize Gemini SDK once outside component render
-const ai = new GoogleGenAI({ 
-  apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' 
-});
 
 export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -66,19 +60,24 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
 
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      
       if (!apiKey) {
         throw new Error("Missing VITE_GEMINI_API_KEY environment variable.");
       }
 
-      const systemInstruction = `You are MUNSIF.AI, an official AI Legal Assistant specializing in Pakistani Law (PPC, CrPC, CPC, and Constitution of Pakistan).
-Selected Language: ${language}.
-Provide concise, accurate legal insights with relevant section citations where appropriate.`;
+      // Initialize AI inside handleSend so it evaluates the variable dynamically at runtime
+      const ai = new GoogleGenAI({ apiKey });
 
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: [
-          { role: 'user', parts: [{ text: `${systemInstruction}\n\nUser Question: ${query}` }] }
-        ]
+          { role: 'user', parts: [{ text: query }] }
+        ],
+        config: {
+          systemInstruction: `You are MUNSIF.AI, an official AI Legal Assistant specializing in Pakistani Law (PPC, CrPC, CPC, and Constitution of Pakistan).
+Selected Language: ${language}.
+Provide concise, accurate legal insights with relevant section citations where appropriate.`
+        }
       });
 
       setIsLoading(false);
@@ -96,9 +95,9 @@ Provide concise, accurate legal insights with relevant section citations where a
       console.error("Chat error:", err);
       setIsLoading(false);
 
-      const errorMessage = err?.message?.includes("Missing VITE_GEMINI_API_KEY")
-        ? "API Key missing! Please configure VITE_GEMINI_API_KEY in your settings."
-        : "An error occurred while connecting to the legal database. Please check your API key settings.";
+      const errorMessage = !import.meta.env.VITE_GEMINI_API_KEY
+        ? "API Key missing! Please configure VITE_GEMINI_API_KEY on Vercel."
+        : `Error: ${err?.message || "An error occurred while connecting to the legal database."}`;
 
       setMessages(prev => [
         ...prev,
