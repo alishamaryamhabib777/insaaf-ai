@@ -209,7 +209,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash", // <--- UPDATED MODEL NAME HERE
+      model: "gemini-2.0-flash", // <--- UPDATED MODEL NAME HERE
       contents: `Jurisdiction: ${jurisdiction}\nUser Grievance Text:\n${fullComplaintText}`,
       config: {
         systemInstruction: systemPrompt,
@@ -448,9 +448,9 @@ When answering:
     let sources: Array<{ title: string; url: string }> = [];
 
     try {
-      // Try gemini-1.5-flash with Google Search Grounding
+      // Try gemini-2.0-flash with Google Search Grounding
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash", // <--- UPDATED MODEL NAME HERE
+        model: "gemini-2.0-flash", // <--- UPDATED MODEL NAME HERE
         contents: sanitizedHistory as any,
         config: {
           systemInstruction,
@@ -466,11 +466,11 @@ When answering:
         url: chunk.web?.uri || ""
       })).filter((s: any) => s.url) || [];
     } catch (groundingErr) {
-      console.warn("Search grounding failed, falling back to standard gemini-1.5-flash:", groundingErr);
+      console.warn("Search grounding failed, falling back to standard gemini-2.0-flash:", groundingErr);
       // Retry without search grounding tool
       try {
         const response = await ai.models.generateContent({
-          model: "gemini-1.5-flash", // <--- UPDATED MODEL NAME HERE
+          model: "gemini-2.0-flash", // <--- UPDATED MODEL NAME HERE
           contents: sanitizedHistory as any,
           config: {
             systemInstruction,
