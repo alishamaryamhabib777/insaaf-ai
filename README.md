@@ -22,7 +22,7 @@
 
 <br>
 
-> ⚠️ **Disclaimer:** Munsif.ai is an independent student project built for a training program, not an official service of the Government of Pakistan, the Supreme Court, or any judicial body. It provides general legal information via AI, not legal advice, and is not affiliated with or endorsed by any court. Please make sure your in-app copy reflects this too.
+> ⚠️ **Disclaimer:** Munsif.AI is an independent student project built for a training program, not an official service of the Government of Pakistan, the Supreme Court, or any judicial body. It provides general legal information via AI, not legal advice, and is not affiliated with or endorsed by any court. Please make sure your in-app copy reflects this too.
 
 ---
 
