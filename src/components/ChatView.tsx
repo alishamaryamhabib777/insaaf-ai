@@ -170,7 +170,7 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
               {msg.sender === 'ai' ? (
                 <>
                   <Sparkles className="w-3.5 h-3.5 text-emerald-800" />
-                  <span className="font-extrabold text-[#012618]">INSAAF AI LEGAL ADVISOR</span>
+                  <span className="font-extrabold text-[#012618]">MUNSIF.AI LEGAL ADVISOR</span>
                 </>
               ) : (
                 <>

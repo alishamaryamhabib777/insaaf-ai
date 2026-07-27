@@ -1,5 +1,5 @@
 {
-  "name": "InsaafAI - Pakistan Legal Intake & AI Assistant",
+  "name": "Munsif.ai - Pakistan Legal Intake & AI Assistant",
   "description": "A professional Pakistani judicial access platform for legal intake, PPC/CPC section mapping, petition drafting, and bilingual legal research in English and Roman Urdu.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

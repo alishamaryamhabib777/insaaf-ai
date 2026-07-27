@@ -162,7 +162,7 @@ app.post("/api/legal", async (req, res) => {
       return res.json(generateFallbackLegalAnalysis(fullComplaintText, jurisdiction));
     }
 
-    const systemPrompt = `You are InsaafAI, an expert Pakistani Judicial Assistant and Senior Advocate specializing in the Pakistan Penal Code (PPC), Code of Criminal Procedure (CrPC), Code of Civil Procedure (CPC), Illegal Dispossession Act, Constitution of Pakistan (1973), and Supreme Court precedents.
+    const systemPrompt = `You are Munsif.ai, an expert Pakistani Judicial Assistant and Senior Advocate specializing in the Pakistan Penal Code (PPC), Code of Criminal Procedure (CrPC), Code of Civil Procedure (CPC), Illegal Dispossession Act, Constitution of Pakistan (1973), and Supreme Court precedents.
 
 Analyze the user's grievance and output a valid JSON object matching this schema:
 {
@@ -239,7 +239,7 @@ function getSmartLegalResponse(message: string) {
 
   let text = "";
   let legalBasis = "Pakistan Penal Code & Supreme Court Precedents";
-  let sectionRef = "InsaafAI Research Engine";
+  let sectionRef = "Munsif.ai Research Engine";
   let sources = [
     { title: "Pakistan Penal Code 1860 (Official Gazette)", url: "https://pakistan-law-site.org" },
     { title: "Code of Criminal Procedure 1898", url: "https://pakistanlaw.justice.gov.pk" }
@@ -368,7 +368,7 @@ function getSmartLegalResponse(message: string) {
     sectionRef = "Art 199 Constitution";
   } else {
     // Dynamic universal responder for any general legal query
-    text = `**InsaafAI Statutory Legal Analysis for Query:** "${message}"
+    text = `**Munsif.ai Statutory Legal Analysis for Query:** "${message}"
 
 1. **Applicable Legal Framework under Pakistani Law:**
    - Your query touches upon statutory rights regulated by the **Pakistan Penal Code (PPC 1860)**, **Code of Criminal Procedure (CrPC 1898)**, and the **Code of Civil Procedure (CPC 1908)**.
@@ -384,7 +384,7 @@ function getSmartLegalResponse(message: string) {
 **Urdu Guidance / اردو میں رہنمائی:**
 آپ کے سوال کے حوالے سے تعزیراتِ پاکستان اور ضابطہ فوجداری کے قوانین لاگو ہوتے ہیں۔ فوری ریلیف کے لیے متعلقہ تھانے میں درخواست دیں یا سیشن کورٹ میں 22-A کی پٹیشن دائر کریں۔ ہماری ایپ کا "File Complaint" کا آپشن استعمال کر کے آپ مکمل درخواست کا مسودہ تیار کر سکتے ہیں۔`;
     legalBasis = "Pakistan Statutory Framework (PPC, CrPC & CPC)";
-    sectionRef = "InsaafAI Legal Counsel";
+    sectionRef = "Munsif.ai Legal Counsel";
   }
 
   return {
@@ -411,7 +411,7 @@ app.post("/api/chat", async (req, res) => {
       return res.json(getSmartLegalResponse(message));
     }
 
-    const systemInstruction = `You are InsaafAI Legal Counsel, an expert, empathetic, and highly detailed AI research assistant specializing in Pakistani law.
+    const systemInstruction = `You are Munsif.ai Legal Counsel, an expert, empathetic, and highly detailed AI research assistant specializing in Pakistani law.
 Provide clear, authoritative legal analysis grounded in the Pakistan Penal Code (PPC), Code of Criminal Procedure (CrPC), Code of Civil Procedure (CPC), Constitution of Pakistan (1973), Illegal Dispossession Act, and landmark Supreme Court of Pakistan decision precedents (PLD, SCMR, CLC, YLR).
 When answering:
 1. Identify relevant statutory sections (e.g., PPC 420, CrPC 497, Article 199).
@@ -492,7 +492,7 @@ When answering:
     return res.json({
       text: replyText,
       legalBasis: "Pakistan Statutory & Case Law (PPC / CrPC / SCMR Archives)",
-      sectionRef: "InsaafAI Research Engine",
+      sectionRef: "Munsif.ai Research Engine",
       sources
     });
   } catch (error: any) {
@@ -518,7 +518,7 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`InsaafAI Server running on http://0.0.0.0:${PORT}`);
+    console.log(`Munsif.ai Server running on http://0.0.0.0:${PORT}`);
   });
 }
 

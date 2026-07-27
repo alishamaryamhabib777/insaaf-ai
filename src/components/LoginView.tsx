@@ -26,7 +26,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
             <Scale className="w-6 h-6" />
           </div>
           <h2 className="text-xl font-bold text-slate-900">
-            InsaafAI Login
+            Munsif.ai Login
           </h2>
           <p className="font-serif text-lg text-[#0a3d2a] font-semibold">
             لاگ ان کریں

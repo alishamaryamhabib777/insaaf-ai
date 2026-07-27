@@ -119,7 +119,7 @@ export const IntakeView: React.FC<IntakeViewProps> = ({
             Submit Citizen Complaint / عمومی شکایت درج کریں
           </h1>
           <p className="text-xs text-emerald-200/90 mt-1 max-w-2xl">
-            Provide the details of your incident. InsaafAI will map relevant Pakistan Penal Code (PPC) laws and draft court-ready petitions.
+            Provide the details of your incident. Munsif.ai will map relevant Pakistan Penal Code (PPC) laws and draft court-ready petitions.
           </p>
         </div>
 
@@ -352,7 +352,7 @@ export const IntakeView: React.FC<IntakeViewProps> = ({
                 Analyze Complaint / تجزئیہ کریں
               </h3>
               <p className="text-[11px] text-slate-500 mt-0.5">
-                InsaafAI will scan Pakistan Penal Code statutes and draft your petition.
+                Munsif.ai will scan Pakistan Penal Code statutes and draft your petition.
               </p>
             </div>
 

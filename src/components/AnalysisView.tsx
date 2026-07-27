@@ -229,7 +229,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </div>
         <div>
           <h4 className="text-xs font-bold text-[#80eaa9]">
-            InsaafAI Verification Core
+            Munsif.ai Verification Core
           </h4>
           <p className="text-[11px] text-emerald-200/80">
             Cross-referencing 50,000+ past judgments and statutory regulations under Constitutional Framework of Pakistan.
