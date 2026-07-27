@@ -147,7 +147,10 @@ function generateFallbackLegalAnalysis(complaint: string, jurisdiction: string =
 // POST /api/legal - Main legal analysis endpoint
 app.post(["/api/legal", "/legal"], async (req, res) => {
   try {
-    const { complaint, urduComplaint, jurisdiction = "High Court of Sindh, Karachi" } = req.body;
+    const body = req.body || {};
+    const complaint = body.complaint || "";
+    const urduComplaint = body.urduComplaint || "";
+    const jurisdiction = body.jurisdiction || "High Court of Sindh, Karachi";
 
     if (!complaint && !urduComplaint) {
       return res.status(400).json({ error: "Please provide a valid legal grievance or complaint description." });
@@ -208,7 +211,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: `Jurisdiction: ${jurisdiction}\nUser Grievance Text:\n${fullComplaintText}`,
       config: {
         systemInstruction: systemPrompt,
@@ -397,7 +400,9 @@ function getSmartLegalResponse(message: string) {
 // POST /api/chat - AI Legal Assistant Chatbot endpoint with Search Grounding
 app.post(["/api/chat", "/chat"], async (req, res) => {
   try {
-    const { message, history = [] } = req.body;
+    const body = req.body || {};
+    const message = body.message || "";
+    const history = body.history || [];
 
     if (!message) {
       return res.status(400).json({ error: "Message is required." });
@@ -447,7 +452,7 @@ When answering:
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         contents: sanitizedHistory as any,
         config: {
           systemInstruction,
@@ -463,10 +468,10 @@ When answering:
         url: chunk.web?.uri || ""
       })).filter((s: any) => s.url) || [];
     } catch (groundingErr) {
-      console.warn("Search grounding failed, falling back to standard gemini-3.5-latest:", groundingErr);
+      console.warn("Search grounding failed, falling back to standard gemini-2.5-flash:", groundingErr);
       try {
         const response = await ai.models.generateContent({
-          model: "gemini-3.5-flash",
+          model: "gemini-2.5-flash",
           contents: sanitizedHistory as any,
           config: {
             systemInstruction,
