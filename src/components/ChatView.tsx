@@ -43,65 +43,64 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
   ];
 
   const handleSend = async (textToSend?: string) => {
-    const query = textToSend || input;
-    if (!query.trim() || isLoading) return;
+  const query = textToSend || input;
+  if (!query.trim() || isLoading) return;
 
-    const userMsg: ChatMessage = {
-      id: Date.now().toString(),
-      sender: 'user',
-      text: query,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  const userMsg: ChatMessage = {
+    id: Date.now().toString(),
+    sender: 'user',
+    text: query,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  };
+
+  const updatedMessages = [...messages, userMsg];
+  setMessages(updatedMessages);
+  if (!textToSend) setInput('');
+  setIsLoading(true);
+
+  try {
+    // Build conversation history for the /api/chat endpoint
+    const history = updatedMessages.map(m => ({
+      role: m.sender === 'user' ? 'user' : 'model',
+      content: m.text
+    }));
+
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: query, history })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Server responded with status ${res.status}`);
+    }
+
+    const data = await res.json();
+    setIsLoading(false);
+
+    const aiMsg: ChatMessage = {
+      id: (Date.now() + 1).toString(),
+      sender: 'ai',
+      text: data.text || "No response generated.",
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      legalBasis: data.legalBasis || 'Pakistan Penal Code & Supreme Court Precedents'
     };
 
-    setMessages(prev => [...prev, userMsg]);
-    if (!textToSend) setInput('');
-    setIsLoading(true);
-
-    try {
-      // Send request to your Express server endpoint instead of SDK client-side
-      const res = await fetch('/api/legal', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          complaint: query,
-          jurisdiction: "High Court of Sindh, Karachi"
-        })
-      });
-
-      if (!res.ok) {
-        throw new Error(`Server responded with status ${res.status}`);
-      }
-
-      const data = await res.json();
-      setIsLoading(false);
-
-      // Build AI response text from server payload
-      const responseText = data.caseSummary || data.text || "No legal analysis generated.";
-
-      const aiMsg: ChatMessage = {
+    setMessages(prev => [...prev, aiMsg]);
+  } catch (err: any) {
+    console.error("Chat error:", err);
+    setIsLoading(false);
+    setMessages(prev => [
+      ...prev,
+      {
         id: (Date.now() + 1).toString(),
         sender: 'ai',
-        text: responseText,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        legalBasis: data.ppcLawSections?.[0]?.section || 'Pakistan Penal Code & Supreme Court Precedents'
-      };
-
-      setMessages(prev => [...prev, aiMsg]);
-    } catch (err: any) {
-      console.error("Chat error:", err);
-      setIsLoading(false);
-
-      setMessages(prev => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          sender: 'ai',
-          text: `⚠️ Error: ${err?.message || "An error occurred while connecting to the legal database."}`,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }
-      ]);
-    }
-  };
+        text: `⚠️ Error: ${err?.message || "An error occurred while connecting to the legal database."}`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+    ]);
+  }
+};
 
   return (
     <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 flex flex-col min-h-[calc(100vh-6rem)]">
