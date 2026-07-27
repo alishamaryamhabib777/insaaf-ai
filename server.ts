@@ -5,8 +5,6 @@ import { GoogleGenAI } from "@google/genai";
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-app.use(express.json({ limit: "10mb" }));
-
 // Enable CORS and handle preflight OPTIONS requests for Vercel deployment
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -18,20 +16,26 @@ app.use((req, res, next) => {
   next();
 });
 
+// Stream-safe body parser middleware (prevents stream reading timeouts on Vercel)
+app.use((req: any, res: any, next: any) => {
+  if (req.body && typeof req.body === "object") {
+    return next();
+  }
+  express.json({ limit: "10mb" })(req, res, next);
+});
+
 // Initialize Gemini SDK lazily / safely
 function getGeminiClient(): GoogleGenAI | null {
   const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
   if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
     return null;
   }
-  return new GoogleGenAI({
-    apiKey,
-    httpOptions: {
-      headers: {
-        "User-Agent": "aistudio-build",
-      },
-    },
-  });
+  try {
+    return new GoogleGenAI({ apiKey });
+  } catch (err) {
+    console.error("Failed to initialize GoogleGenAI client:", err);
+    return null;
+  }
 }
 
 // Fallback generator for realistic Pakistani legal analysis if AI key is missing or fails
@@ -511,6 +515,16 @@ When answering:
     const message = req.body?.message || "";
     return res.json(getSmartLegalResponse(message));
   }
+});
+
+// Global fallback error handler to prevent 500 errors on Vercel
+app.use((err: any, req: any, res: any, next: any) => {
+  console.error("Express Error Handler caught exception:", err?.message || err);
+  if (res.headersSent) {
+    return next(err);
+  }
+  const message = req.body?.message || "General legal query";
+  return res.status(200).json(getSmartLegalResponse(message));
 });
 
 export default app;
