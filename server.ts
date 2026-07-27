@@ -7,6 +7,17 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: "10mb" }));
 
+// Enable CORS and handle preflight OPTIONS requests for Vercel deployment
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
+
 // Initialize Gemini SDK lazily / safely
 function getGeminiClient(): GoogleGenAI | null {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -211,7 +222,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: `Jurisdiction: ${jurisdiction}\nUser Grievance Text:\n${fullComplaintText}`,
       config: {
         systemInstruction: systemPrompt,
@@ -452,7 +463,7 @@ When answering:
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.0-flash",
         contents: sanitizedHistory as any,
         config: {
           systemInstruction,
@@ -468,10 +479,10 @@ When answering:
         url: chunk.web?.uri || ""
       })).filter((s: any) => s.url) || [];
     } catch (groundingErr) {
-      console.warn("Search grounding failed, falling back to standard gemini-2.5-flash:", groundingErr);
+      console.warn("Search grounding failed, falling back to standard gemini-2.0-flash:", groundingErr);
       try {
         const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents: sanitizedHistory as any,
           config: {
             systemInstruction,
