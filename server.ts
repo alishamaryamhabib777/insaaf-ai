@@ -209,7 +209,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
+      model: "gemini-3.5-flash",
       contents: `Jurisdiction: ${jurisdiction}\nUser Grievance Text:\n${fullComplaintText}`,
       config: {
         systemInstruction: systemPrompt,
@@ -448,7 +448,7 @@ When answering:
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-flash-latest",
+        model: "gemini-3.5-flash",
         contents: sanitizedHistory as any,
         config: {
           systemInstruction,
@@ -464,10 +464,10 @@ When answering:
         url: chunk.web?.uri || ""
       })).filter((s: any) => s.url) || [];
     } catch (groundingErr) {
-      console.warn("Search grounding failed, falling back to standard gemini-flash-latest:", groundingErr);
+      console.warn("Search grounding failed, falling back to standard gemini-3.5-latest:", groundingErr);
       try {
         const response = await ai.models.generateContent({
-          model: "gemini-flash-latest",
+          model: "gemini-3.5-flash",
           contents: sanitizedHistory as any,
           config: {
             systemInstruction,
