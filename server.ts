@@ -498,6 +498,8 @@ When answering:
   }
 });
 
+// At the bottom of server.ts:
+
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
@@ -505,6 +507,10 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Munsif.ai Server running on http://0.0.0.0:${PORT}`);
+    });
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
@@ -512,10 +518,9 @@ async function startServer() {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
-
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Munsif.ai Server running on http://0.0.0.0:${PORT}`);
-  });
 }
 
 startServer();
+
+// MUST EXPORT APP FOR VERCEL SERVERLESS
+export default app;
