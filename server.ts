@@ -209,7 +209,7 @@ Analyze the user's grievance and output a valid JSON object matching this schema
 }`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-flash-latest",
       contents: `Jurisdiction: ${jurisdiction}\nUser Grievance Text:\n${fullComplaintText}`,
       config: {
         systemInstruction: systemPrompt,
