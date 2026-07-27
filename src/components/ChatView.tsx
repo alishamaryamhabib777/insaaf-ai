@@ -1,23 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, AppLanguage } from '../types';
+import { GoogleGenAI } from '@google/genai';
 import { 
   Sparkles, 
   Send, 
-  Mic, 
   BookOpen, 
-  Languages, 
-  Bot, 
   User, 
   Loader2, 
-  ShieldCheck,
-  Scale,
-  Building2,
-  FileText
+  ShieldCheck 
 } from 'lucide-react';
 
 interface ChatViewProps {
   language: AppLanguage;
 }
+
+// Initialize Gemini SDK once outside component render
+const ai = new GoogleGenAI({ 
+  apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' 
+});
 
 export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -65,42 +65,47 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: query,
-          history: messages.map(m => ({
-            role: m.sender === 'user' ? 'user' : 'model',
-            content: m.text
-          })),
-          language
-        })
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error("Missing VITE_GEMINI_API_KEY environment variable.");
+      }
+
+      const systemInstruction = `You are MUNSIF.AI, an official AI Legal Assistant specializing in Pakistani Law (PPC, CrPC, CPC, and Constitution of Pakistan).
+Selected Language: ${language}.
+Provide concise, accurate legal insights with relevant section citations where appropriate.`;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: [
+          { role: 'user', parts: [{ text: `${systemInstruction}\n\nUser Question: ${query}` }] }
+        ]
       });
 
-      const data = await response.json();
       setIsLoading(false);
 
       const aiMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: 'ai',
-        text: data.text || "I have scanned the relevant statutes under Pakistan law.",
+        text: response.text || "No response generated.",
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        legalBasis: data.legalBasis || 'Pakistan Penal Code & Supreme Court Precedents',
-        sectionRef: data.sectionRef,
-        sources: data.sources || []
+        legalBasis: 'Pakistan Penal Code & Supreme Court Precedents'
       };
 
       setMessages(prev => [...prev, aiMsg]);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Chat error:", err);
       setIsLoading(false);
+
+      const errorMessage = err?.message?.includes("Missing VITE_GEMINI_API_KEY")
+        ? "API Key missing! Please configure VITE_GEMINI_API_KEY in your settings."
+        : "An error occurred while connecting to the legal database. Please check your API key settings.";
+
       setMessages(prev => [
         ...prev,
         {
           id: (Date.now() + 1).toString(),
           sender: 'ai',
-          text: "As-salamu Alaykum. I am here to assist with Pakistani laws including PPC, CrPC, CPC, and Constitution Articles. Please feel free to ask your legal query.",
+          text: `⚠️ ${errorMessage}`,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
@@ -112,12 +117,6 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
       
       {/* Visual Header Banner */}
       <div className="relative bg-gradient-to-r from-[#012618] via-[#043d28] to-[#012618] text-white p-6 rounded-3xl border-2 border-[#d4af37] shadow-xl overflow-hidden">
-        <img 
-          src="/images/legal_research_banner_1784922947119.jpg"
-          alt="AI Legal Research"
-          referrerPolicy="no-referrer"
-          className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-overlay pointer-events-none"
-        />
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2 mb-1">
@@ -192,42 +191,17 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
               <p className="whitespace-pre-wrap">{msg.text}</p>
 
               {/* Legal Basis Sub-Card if AI */}
-              {msg.sender === 'ai' && (
+              {msg.sender === 'ai' && msg.legalBasis && !msg.text.startsWith("⚠️") && (
                 <div className="space-y-2 pt-1">
-                  {msg.legalBasis && (
-                    <div className="p-3.5 bg-amber-50 rounded-2xl border border-amber-300 text-[11px] text-[#012618]">
-                      <div className="flex items-center space-x-1.5 font-extrabold mb-1 text-amber-950">
-                        <BookOpen className="w-4 h-4 text-amber-600" />
-                        <span>Statutory Authority: {msg.legalBasis}</span>
-                      </div>
-                      <p className="text-slate-700 text-[10px] font-medium leading-normal">
-                        Cross-referenced with Official Gazette of Pakistan & Law Commission Reports.
-                      </p>
+                  <div className="p-3.5 bg-amber-50 rounded-2xl border border-amber-300 text-[11px] text-[#012618]">
+                    <div className="flex items-center space-x-1.5 font-extrabold mb-1 text-amber-950">
+                      <BookOpen className="w-4 h-4 text-amber-600" />
+                      <span>Statutory Authority: {msg.legalBasis}</span>
                     </div>
-                  )}
-
-                  {msg.sources && msg.sources.length > 0 && (
-                    <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-[11px] text-[#012618]">
-                      <span className="font-extrabold block text-emerald-900 mb-1.5 flex items-center space-x-1">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
-                        <span>Verified Precedent & Gazette References:</span>
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {msg.sources.map((src, sIdx) => (
-                          <a
-                            key={sIdx}
-                            href={src.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center space-x-1 px-2.5 py-1 bg-white hover:bg-emerald-100 border border-emerald-300 rounded-lg text-[10px] font-bold text-emerald-900 transition-colors"
-                          >
-                            <span>{src.title}</span>
-                            <span className="text-emerald-600">↗</span>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                    <p className="text-slate-700 text-[10px] font-medium leading-normal">
+                      Cross-referenced with Official Gazette of Pakistan & Law Commission Reports.
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
@@ -247,7 +221,6 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
       {/* Input Area */}
       <div className="bg-white p-3 rounded-3xl border-2 border-slate-300 shadow-lg space-y-2">
         <div className="flex items-center space-x-2">
-          
           <input
             type="text"
             value={input}
@@ -276,4 +249,3 @@ export const ChatView: React.FC<ChatViewProps> = ({ language }) => {
     </div>
   );
 };
-
