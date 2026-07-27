@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div>
             <div className="flex items-center space-x-2">
               <span className="font-extrabold text-2xl tracking-tight text-white font-sans drop-shadow-sm">
-                Inṣaaf<span className="text-[#80eaa9]">AI</span>
+                Munsif.<span className="text-[#80eaa9]">AI</span>
               </span>
               <span className="px-2 py-0.5 text-[9px] uppercase tracking-widest font-black bg-[#80eaa9] text-[#012618] rounded-md shadow-xs">
                 PAKISTAN
