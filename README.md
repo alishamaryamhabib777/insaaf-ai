@@ -263,7 +263,7 @@ npm run build
 
 <div align="center">
 
-Built by **Alisha Maryam Habib** for the **Pak Gen&Agentic AI Course** final project.
+Built by **Alisha Maryam Habib** for the **Gen&Agentic AI Course** final project.
 
 [![GitHub](https://img.shields.io/badge/GitHub-alishamaryamhabib777-181717?style=flat&logo=github)](https://github.com/alishamaryamhabib777)
 
